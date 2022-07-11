@@ -75,7 +75,7 @@ $aProductos[] = array(
                             <td><?php echo $aProductos[0]["nombre"]; ?></td>
                             <td><?php echo $aProductos[0]["marca"]; ?></td>
                             <td><?php echo $aProductos[0]["modelo"]; ?></td>
-                            <td><?php echo $aProductos[0]["stock"]; ?></td>
+                            <td><?php echo $aProductos[0]["stock"] > 10 ? "hay stock" : ($aProductos[0]["stock"] > 0 && $aProductos[0]["stock"] <= 10 ? "Poco stock" : "No hay Stock"); ?></td>
                             <td><?php echo $aProductos[0]["precio"]; ?></td>
                             <td><button class="btn btn-primary">Comprar</button></td>
 
@@ -85,14 +85,15 @@ $aProductos[] = array(
                             <td><?php echo $aProductos[1]["nombre"]; ?></td>
                             <td><?php echo $aProductos[1]["marca"]; ?></td>
                             <td><?php echo $aProductos[1]["modelo"]; ?></td>
-                            <td><?php echo $aProductos[1]["stock"]; ?></td>
-                            <td><?php echo $aProductos[1]["precio"]; ?></td>
-                            <td><button class="btn btn-primary">Comprar</button></td>
+                            <td><?php echo $aProductos[1]["stock"]> 10 ? "hay stock" : ($aProductos[1] ["stock"] > 0 && $aProductos[1]["stock"] <= 10 ?"Poco stock" : "No hay Stock" ); ?></td>
+                                </td>
+                                <td><?php echo $aProductos[1]["precio"]; ?></td>
+                                <td><button class="btn btn-primary">Comprar</button></td>
                         <tr>
                             <td><?php echo $aProductos[2]["nombre"]; ?></td>
                             <td><?php echo $aProductos[2]["marca"]; ?></td>
                             <td><?php echo $aProductos[2]["modelo"]; ?></td>
-                            <td><?php echo $aProductos[2]["stock"]; ?></td>
+                            <td><?php echo $aProductos[2]["stock"] > 10 ? "hay stock" : ($aProductos[2] ["stock"] > 0 && $aProductos[2]["stock"] <= 10 ?"Poco stock" : "No hay Stock"); ?></td>
                             <td><?php echo $aProductos[2]["precio"]; ?></td>
                             <td><button class="btn btn-primary">Comprar</button></td>
                         </tr>
