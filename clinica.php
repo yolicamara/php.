@@ -8,31 +8,31 @@ error_reporting(E_ALL);
 
 $aPacientes = array();
 $aPacientes[] = array(
-"dni" => "33.765.012",
-"nombre" => "Ana Acuna",
-"edad" => "45",
-"peso" => 81.5,
+    "dni" => "33.765.012",
+    "nombre" => "Ana Acuna",
+    "edad" => "45",
+    "peso" => 81.5,
 );
 $aPacientes[] = array(
-"dni" => "23.684.385",
-"nombre" => "Gonzalo Bustamante",
-"edad" => "66",
-"peso" => 79,
-                        
+    "dni" => "23.684.385",
+    "nombre" => "Gonzalo Bustamante",
+    "edad" => "66",
+    "peso" => 79,
+
 );
- $aPacientes[] = array(
-"dni" => "23.684.385",
-"nombre" => "Juan Irraola",
-"edad" => "28",
-"peso" => 79,
-                                    
+$aPacientes[] = array(
+    "dni" => "23.684.385",
+    "nombre" => "Juan Irraola",
+    "edad" => "28",
+    "peso" => 79,
+
 );
 
 $aPacientes[] = array(
-"dni"=> "23.684.385",
-"nombre" => "Beatriz Ocampo",
-"edad" => 50,
-"peso" => 79,
+    "dni" => "23.684.385",
+    "nombre" => "Beatriz Ocampo",
+    "edad" => 50,
+    "peso" => 79,
 );
 
 
@@ -64,25 +64,26 @@ $aPacientes[] = array(
                             <th>Nombre y Apellido</th>
                             <th>Edad</th>
                             <th>Peso</th>
-                         </tr>
+                        </tr>
                     </thead>
-                    <tbody> 
-                        <?php for($i=0; $i < count($aPacientes); $i++){ ?>
-                        
+                    <tbody>
+                        <?php foreach ($aPacientes as $paciente) { ?>
 
                         <tr>
-                            <td><?php echo $aPacientes[$i]["dni"]; ?></td>
-                            <td><?php echo $aPacientes[$i]["nombre"]; ?></td>
-                            <td><?php echo $aPacientes[$i]["edad"]; ?></td>
-                            <td><?php echo $aPacientes[$i]["peso"]; ?></td>
+                            <td><?php echo $paciente["dni"]; ?></td>
+                            <td><?php echo $paciente["nombre"]; ?></td>
+                            <td><?php echo $paciente["edad"]; ?></td>
+                            <td><?php echo $paciente["peso"]; ?></td>
                         </tr>
                         <?php } ?>
+                        
                     </tbody>
-                    
+
                 </table>
             </div>
         </div>
     </main>
 
 </body>
+
 </html>
