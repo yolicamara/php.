@@ -15,6 +15,7 @@ $aClientes = array();
 }
 
 if ($_POST) {
+    //si hace click en Enviar entonces:actua el array y se cumple todo lo de abajo, pero (sigue abajo*)
     //asignamos en variables los datos que vienen del formulario
 
     $nombre = $_POST["txtNombre"];
@@ -30,6 +31,8 @@ if ($_POST) {
     );
     //actualiza el contenido de variable de session
     $_SESSION["listadoClientes"] = $aClientes;
+    //(viene de arriba*) si hace click en eliminar: se produce esto
+    //session_destroy();
 }
 
 
