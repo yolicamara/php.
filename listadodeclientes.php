@@ -3,7 +3,16 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+session_start();
+
+if(isset($_SESSION["listadoClientes"])){
+    //si existe la variable de session listadoClientes asigno su condicion a aClientes
+    $aClientes = $_SESSION["listadoClientes"];
+
+} else{
+
 $aClientes = array();
+}
 
 if ($_POST) {
     //asignamos en variables los datos que vienen del formulario
@@ -19,6 +28,8 @@ if ($_POST) {
                          "telefono" => $telefono,
                          "edad" => $edad,
     );
+    //actualiza el contenido de variable de session
+    $_SESSION["listadoClientes"] = $aClientes;
 }
 
 
