@@ -15,7 +15,8 @@ if (file_exists("archivo.txt")) {
     //Creamos un aClientes inicializado como un array vacio
     $aClientes = array();
 }
-$pos = isset($_GET["pos"]) && $_GET["pos"] >=  0 ? $_GET[pos] : "";
+
+$pos = isset($_GET["pos"]) && $_GET["pos"] >=  0 ? $_GET["pos"] : "";
 
 
 if ($_POST) {
@@ -26,8 +27,8 @@ if ($_POST) {
     $nombreImagen = "";
 
     if($pos>=0){
-        ($_FILES["archivo"]["error"] === UPLOAD_ERR_OK){
-            $nombreAleatorio =date("Ymdhmsi"); //2021011420453710
+        if ($_FILES["archivo"]["error"] === UPLOAD_ERR_OK){
+            $nombreAleatorio = date("Ymdhmsi"); //2021011420453710
             $$archivo_tmp = $_FILES["archivo"]["tmp_name"];
             $extension = strtolower(pathinfo($_FILES["archivo"]["name"], PATHINFO_EXTENSION));
             if($extension == "jpg" || $extension == "jpeg" || $extension == "png"){
@@ -37,7 +38,7 @@ if ($_POST) {
 
             //eliminar la imagen anterior
             if($aClientes[$pos]["imagen"] != "" && file_exists("imagenes/".$aClientes[$pos]["imagen"])){
-                unlink("imagenes"/.$aClientes[$pos]["imagen"]);
+                unlink("imagenes".$aClientes[$pos]["imagen"]);
             }
         }else{
             //Mantener el nombreImagen que teniamos antes
@@ -58,11 +59,11 @@ if ($_POST) {
        // $nombreAleatorio = date("Ymdhmsi"); //2021010420453710
         //$archivo_tmp = $_FILES["archivo"]["tmp_name"];
         //if($extension == "doc" || $extension =="docx" || $extension == "pdf"){   if($pos>=0){
-            $nombreAleatorio =date("Ymdhmsi"); //2021011420453710
-            $$archivo_tmp = $_FILES["archivo"]["tmp_name"];
-            $extension = pathinfo($_FILES["archivo"]["name"], PATHINFO_EXTENSION));
+            $nombreAleatorio = date("Ymdhmsi"); //2021011420453710
+            $archivo_tmp = $_FILES["archivo"]["tmp_name"];
+            $extension = pathinfo($_FILES["archivo"]["name"], PATHINFO_EXTENSION);
             if($extension == "jpg" || $extension == "jpeg" || $extension == "png"){
-            $nombreImagen = $nombreAleatorio . $extension
+            $nombreImagen = "$nombreAleatorio.$extension";
                  move_uploaded_file($archivo_tmp, "imagenes/$nombreImagen"); 
 
 
@@ -179,7 +180,11 @@ if(isset($_GET["do"]) && $_GET["do"] == "eliminar"){
 
 
                         <tr>
-                            <td></td>
+                            <td>
+                            <?php if($cliente["imagen"] != "") : ?>
+                            <img src="imagenes/<?php echo $cliente["imagen"];?>" class="img-thumbnail">
+                        <?php endif; ?>
+                        </td>
                             <td><?php echo $cliente["documento"]; ?></td>
                             <td><?php echo $cliente["nombre"]; ?></td>
                             <td><?php echo $cliente["correo"]; ?></td>
