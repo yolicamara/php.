@@ -32,9 +32,9 @@ error_reporting(E_ALL);
                 <h1>Gestor de tareas</h1>
             </div>
         </div>
-        <div class="row">
+        <div class="row pb-3">
             <div class="col-3">
-                <form method="POST">
+                <form action="" method="POST">
                     <div class="pb-3">
                         <label for="">Prioridad</label>
                         <select name="lstPrioridad" id="lstPrioridad">
@@ -90,15 +90,64 @@ error_reporting(E_ALL);
             <Input type="text" id="txtDescripcion" name="txtDescripcion" class="form-control"></Input>
         </div>
         <div class="text-center">
-            <button type="submit"  name="btnEnviar" class="btn btn-primary">ENVIAR</button>
+            <button type="submit" name="btnEnviar" class="btn btn-primary">ENVIAR</button>
             <button type="submit" name="btnCancelar" class="btn bg-gray">CANCELAR</button>
 
         </div>
         </div>
+        <div class="row">
+            <div class="col-12">
+                <table class="table table-hover border">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Fecha de insercion</th>
+                            <th>Titulo</th>
+                            <th>Prioridad</th>
+                            <th>Usuario</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>0</td>
+                            <td>20/05/2022</td>
+                            <td>Actividad 1</td>
+                            <td>Alta</td>
+                            <td>Ana</td>
+                            <td>En proceso</td>
+                            <td> <a href="index.php?pos=<?php echo $pos ?>&do=editar"><i class="bi bi-pencil-fill"></i></a>
+                                <a href="index.php?pos=<?php echo $pos ?>&do=eliminar"><i class="bi bi-trash-fill"></i></a>
+                            </td>
 
-        
-        
-        
+                        </tr>
+                        <tr>
+                            <td>1</td>
+                            <td>02/08/2022</td>
+                            <td>Resolver bug del sistema</td>
+                            <td>Media</td>
+                            <td>Daniela</td>
+                            <td>Terminado</td>
+                            <td> <a href="index.php?pos=<?php echo $pos ?>&do=editar"><i class="bi bi-pencil-fill"></i></a>
+                                <a href="index.php?pos=<?php echo $pos ?>&do=eliminar"><i class="bi bi-trash-fill"></i></a>
+                            </td>
+                        </tr>
+
+
+
+
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+
+
+
+
+
+
     </main>
 </body>
 
