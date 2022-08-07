@@ -2,6 +2,68 @@
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
+
+if (file_exists("archivo.txt")) {
+    //Si el archivo existe,cargo las tareas en la variable aTareas
+    $strJson = file_get_contents("archivo.txt");
+    $aTareas = json_decode($strJson, true);
+} else {
+    //Si el archivo no existe es porque na hay tareas
+    $aTareas = array();
+}
+
+
+if (isset($_GET["id"])  && $_POST["id"] >= 0) {
+    $id = $_GET["id"];
+} else {
+    $id = "";
+}
+if ($_POST) {
+    $titulo = $_POST["txtTitulo"];
+    $prioridad = $_POST["lstPrioridad"];
+    $usuario = $_POST["lstUsuario"];
+    $estado = $_POST["lstEstado"];
+    $descripcion = $_POST["txtDescripcion"];
+
+    if ($id >= 0) {
+        //Estoy editando una tarea
+        $aTareas[$id] = array(
+            "fecha" => $aTareas[$id]["fecha"],
+            "prioridad" => $prioridad,
+            "usuario" => $usuario,
+            "estado" => $estado,
+            "descripcion" => $descripcion
+
+        );
+    } else {
+        //estoy insertando una tarea
+        $aTareas[] = array(
+            "fecha" => date("d/m/Y"),
+            "prioridad" => $prioridad,
+            "usuario" => $usuario,
+            "estado" => $estado,
+            "descripcion" => $descripcion
+        );
+    }
+    //convertir el array de tareas json
+    $strjson = json_encode($aTareas);
+
+    //almacenar en un archivo.txt el json con file_put_contens
+    file_put_contents("archivo.txt", $strJson);
+}
+if (isset($_GET["do"]) && $_GET["do"] == "eliminar") {
+    unset($aTareas["id"]);
+
+    //Convertir aTareas en json
+    $strJson = json_encode($aTareas);
+
+    //Almacenar el json en el archivo
+    file_put_contents("archivo.txt", $strJson);
+
+    header("Location: index.php");
+}
+
+
 ?>
 
 
@@ -28,76 +90,69 @@ error_reporting(E_ALL);
 
     <main class="container">
         <div class="row">
-            <div class="col-12 py-5 text-center">
+            <div class="col-12 pt-5 pb-3 text-center">
                 <h1>Gestor de tareas</h1>
             </div>
         </div>
         <div class="row pb-3">
-            <div class="col-3">
+            <div>
                 <form action="" method="POST">
-                    <div class="pb-3">
-                        <label for="">Prioridad</label>
-                        <select name="lstPrioridad" id="lstPrioridad">
-                            <option value="Sin asignar">Sin asignar</option>
-                            <option value="Asignado">Asignado</option>
-                            <option value="En proceso">En proceso</option>
-                            <option value="Terminado">Terminado</option>
-                        </select>
+                    <div class="row">
+                        <div class="py-1 col-4">
+                            <label for="lstPrioridad">Prioridad</label>
+                            <select name="lstPrioridad" id="lstPrioridad" class="form-control" required>
+                                <option value="" disabled selected>Seleccionar</option>
+                                <option value="Alta" <?php echo isset($aTareas[$id]) && $aTareas[$id]["prioridad"] == "Alta" ? "selected" : ""; ?>></option>
+                                <option value="Media" <?php echo isset($aTareas[$id]) && $aTareas[$id]["prioridad"] == "Media" ? "selected" : ""; ?>></option>
+                                <option value="Baja" <?php echo isset($aTareas[$id]) && $aTareas[$id]["prioridad"] == "Baja" ? "selected" : ""; ?>></option>
+                            </select>
+                        </div>
+                        <div class="py-1 col-4">
+                            <label for="lstUsuario">Usuario</label>
+                            <select name="lstUsuario" id="lstUsuario" class="form-control">
+                                <option value="" disabled selected>Seleccionar</option>
+                                <option value="Ana" <?php echo isset($aTareas[$id]) && $aTareas[$id]["usuario"] == "Ana" ? "selected" : ""; ?>></option>
+                                <option value="Bernabe" <?php echo isset($aTareas[$id]) && $aTareas[$id]["usuario"] == "Bernabe" ? "selected" : ""; ?>></option>
+                                <option value="Daniela" <?php echo isset($aTareas[$id]) && $aTareas[$id]["usuario"] == "Daniela" ? "selected" : ""; ?>></option>
+                            </select>
+                        </div>
+                        <div class="py-1 col-4">
+                            <label for="lstEstado">Estado</label>
+                            <select name="lstEstado" id="lstEstado" class="form-control">
+                                <option value="" disabled selected>Seleccionar</option>
+                                <option value="Sin asignar" <?php echo isset($aTareas[$id]) && $aTareas[$id]["prioridad"] == "sin asignar" ? "selected" : ""; ?>></option>
+                                <option value="Asignado" <?php echo isset($aTareas[$id]) && $aTareas[$id]["prioridad"] == "asignado" ? "selected" : ""; ?>></option>
+                                <option value="En proceso" <?php echo isset($aTareas[$id]) && $aTareas[$id]["prioridad"] == "en proceso" ? "selected" : ""; ?>></option>
+                                <option value="Terminado" <?php echo isset($aTareas[$id]) && $aTareas[$id]["estado"] == "terminado" ? "selected" : ""; ?>></option>
+                            </select>
+                        </div>
                     </div>
+                    <div class="row">
+                        <div class="col-12 py-1">
+                            <label for="txtTitulo">Titulo</label>
+                            <Input type="text" id="txtTitulo" name="txtTitulo" class="form-control"></Input>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 py-1">
+                            <label for="txtDescripcion">Descripcion</label>
+                            <textarea name="txtDescripcion" id="txtDescripcion" required></textarea>
+                        </div>
+                    </div>
+                   <div class="row">
+                      <div class="col-12 py-1 text-center">
+                          <button type="submit" name="btnEnviar" class="btn btn-primary">ENVIAR</button>
+                          <a href="index.php" class="btn btn-secondary">CANCELAR></a>
+
+                       </div>
+                     </div>
                 </form>
             </div>
         </div>
-
-
-        <div class="row">
-            <div class="col-3">
-                <form method="POST">
-                    <div class="pb-3">
-                        <label for="">Usuario</label>
-                        <select name="lstPrioridad" id="lstUsuario">
-                            <option value="Sin asignar">Sin asignar</option>
-                            <option value="Asignado">Asignado</option>
-                            <option value="En proceso">En proceso</option>
-                            <option value="Terminado">Terminado</option>
-                        </select>
-                    </div>
-                </form>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-3">
-                <form method="POST">
-                    <div class="pb-3">
-                        <label for="">Estado</label>
-                        <select name="lstPrioridad" id="lstEstado">
-                            <option value="Sin asignar">Sin asignar</option>
-                            <option value="Asignado">Asignado</option>
-                            <option value="En proceso">En proceso</option>
-                            <option value="Terminado">Terminado</option>
-                        </select>
-                    </div>
-                </form>
-            </div>
-        </div>
-
-
-        <div class="pb-3">
-            <label for="">Titulo</label>
-            <Input type="text" id="txtTitulo" name="txtTitulo" class="form-control"></Input>
-        </div>
-        <div class="pb-2 b-5">
-            <label for="">Descripcion</label>
-            <Input type="text" id="txtDescripcion" name="txtDescripcion" class="form-control"></Input>
-        </div>
-        <div class="text-center">
-            <button type="submit" name="btnEnviar" class="btn btn-primary">ENVIAR</button>
-            <button type="submit" name="btnCancelar" class="btn bg-gray">CANCELAR</button>
-
-        </div>
-        </div>
-        <div class="row">
-            <div class="col-12">
-                <table class="table table-hover border">
+ <?php if (count($aTareas)) : ?>
+              <div class="row">
+                 <div class="col-12 pt-3">
+                     <table class="table table-hover border">
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -106,48 +161,37 @@ error_reporting(E_ALL);
                             <th>Prioridad</th>
                             <th>Usuario</th>
                             <th>Estado</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
+                        <?php foreach ($aTareas as $pos => $tarea): ?>
                         <tr>
-                            <td>0</td>
-                            <td>20/05/2022</td>
-                            <td>Actividad 1</td>
-                            <td>Alta</td>
-                            <td>Ana</td>
-                            <td>En proceso</td>
-                            <td> <a href="index.php?pos=<?php echo $pos ?>&do=editar"><i class="bi bi-pencil-fill"></i></a>
-                                <a href="index.php?pos=<?php echo $pos ?>&do=eliminar"><i class="bi bi-trash-fill"></i></a>
-                            </td>
-
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>02/08/2022</td>
-                            <td>Resolver bug del sistema</td>
-                            <td>Media</td>
-                            <td>Daniela</td>
-                            <td>Terminado</td>
-                            <td> <a href="index.php?pos=<?php echo $pos ?>&do=editar"><i class="bi bi-pencil-fill"></i></a>
-                                <a href="index.php?pos=<?php echo $pos ?>&do=eliminar"><i class="bi bi-trash-fill"></i></a>
+                            <td><?php echo $pos ?></td>
+                            <td><?php echo $tarea["fecha"]; ?></td>
+                            <td><?php echo $tarea["titulo"]; ?></td>
+                            <td><?php echo $tarea["prioridad"]; ?></td>
+                            <td><?php echo $tarea["usuario"]; ?>></td>
+                            <td><?php echo $tarea["estado"]; ?></td>
+                            <td>
+                                 <a href="?id=<?php echo $pos ?>&do=editar"><i class="bi bi-pencil-fill"></i></a>
+                                 <a href="?id=<?php echo $pos ?>&do=eliminar"><i class="bi bi-trash-fill"></i></a>
                             </td>
                         </tr>
-
-
-
-
-
+                        <?php endforeach; ?>
                     </tbody>
                 </table>
             </div>
         </div>
-
-
-
-
-
-
-
+        <?php else : ?>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="alert alert-info" role="alert">
+                            aun no se han cargado tareas.
+                     </div>
+                </div>
+            </div>
+        <?php endif; ?>
     </main>
 </body>
 
