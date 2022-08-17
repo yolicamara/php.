@@ -1,7 +1,7 @@
 <?php
 ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+ini_set('porting(E_ALL);display_startup_errors', 1);
+error_re
 
 if (file_exists("archivo.txt")) {
     //Si el archivo existe,cargo las tareas en la variable aTareas
@@ -13,7 +13,7 @@ if (file_exists("archivo.txt")) {
 }
 
 
-if (isset($_GET["id"])  && $_POST["id"] >= 0) {
+if (isset($_GET["id"])  && $_GET["id"] >= 0) {
     $id = $_GET["id"];
 } else {
     $id = "";
@@ -32,6 +32,7 @@ if ($_POST) {
             "prioridad" => $prioridad,
             "usuario" => $usuario,
             "estado" => $estado,
+            "titulo" => $titulo,
             "descripcion" => $descripcion
 
         );
@@ -42,6 +43,7 @@ if ($_POST) {
             "prioridad" => $prioridad,
             "usuario" => $usuario,
             "estado" => $estado,
+            "titulo" => $titulo,
             "descripcion" => $descripcion
         );
     }
@@ -102,28 +104,28 @@ if (isset($_GET["do"]) && $_GET["do"] == "eliminar") {
                             <label for="lstPrioridad">Prioridad</label>
                             <select name="lstPrioridad" id="lstPrioridad" class="form-control" required>
                                 <option value="" disabled selected>Seleccionar</option>
-                                <option value="Alta" <?php echo isset($aTareas[$id]) && $aTareas[$id]["prioridad"] == "Alta" ? "selected" : ""; ?>></option>
-                                <option value="Media" <?php echo isset($aTareas[$id]) && $aTareas[$id]["prioridad"] == "Media" ? "selected" : ""; ?>></option>
-                                <option value="Baja" <?php echo isset($aTareas[$id]) && $aTareas[$id]["prioridad"] == "Baja" ? "selected" : ""; ?>></option>
+                                <option value="Alta" <?php echo isset($aTareas[$id]) && $aTareas[$id]["prioridad"] == "Alta" ? "selected" : ""; ?>>Alta</option>
+                                <option value="Media" <?php echo isset($aTareas[$id]) && $aTareas[$id]["prioridad"] == "Media" ? "selected" : ""; ?>>Media</option>
+                                <option value="Baja" <?php echo isset($aTareas[$id]) && $aTareas[$id]["prioridad"] == "Baja" ? "selected" : ""; ?>>Baja</option>
                             </select>
                         </div>
                         <div class="py-1 col-4">
                             <label for="lstUsuario">Usuario</label>
-                            <select name="lstUsuario" id="lstUsuario" class="form-control">
+                            <select name="lstUsuario" id="lstUsuario" class="form-control" requerid>
                                 <option value="" disabled selected>Seleccionar</option>
-                                <option value="Ana" <?php echo isset($aTareas[$id]) && $aTareas[$id]["usuario"] == "Ana" ? "selected" : ""; ?>></option>
-                                <option value="Bernabe" <?php echo isset($aTareas[$id]) && $aTareas[$id]["usuario"] == "Bernabe" ? "selected" : ""; ?>></option>
-                                <option value="Daniela" <?php echo isset($aTareas[$id]) && $aTareas[$id]["usuario"] == "Daniela" ? "selected" : ""; ?>></option>
+                                <option value="Ana" <?php echo isset($aTareas[$id]) && $aTareas[$id]["usuario"] == "Ana" ? "selected" : ""; ?>>Ana</option>
+                                <option value="Bernabe" <?php echo isset($aTareas[$id]) && $aTareas[$id]["usuario"] == "Bernabe" ? "selected" : ""; ?>>Bernabe</option>
+                                <option value="Daniela" <?php echo isset($aTareas[$id]) && $aTareas[$id]["usuario"] == "Daniela" ? "selected" : ""; ?>>Daniela</option>
                             </select>
                         </div>
                         <div class="py-1 col-4">
                             <label for="lstEstado">Estado</label>
-                            <select name="lstEstado" id="lstEstado" class="form-control">
+                            <select name="lstEstado" id="lstEstado" class="form-control" requerid>
                                 <option value="" disabled selected>Seleccionar</option>
-                                <option value="Sin asignar" <?php echo isset($aTareas[$id]) && $aTareas[$id]["prioridad"] == "sin asignar" ? "selected" : ""; ?>></option>
-                                <option value="Asignado" <?php echo isset($aTareas[$id]) && $aTareas[$id]["prioridad"] == "asignado" ? "selected" : ""; ?>></option>
-                                <option value="En proceso" <?php echo isset($aTareas[$id]) && $aTareas[$id]["prioridad"] == "en proceso" ? "selected" : ""; ?>></option>
-                                <option value="Terminado" <?php echo isset($aTareas[$id]) && $aTareas[$id]["estado"] == "terminado" ? "selected" : ""; ?>></option>
+                                <option value="Sin asignar" <?php echo isset($aTareas[$id]) && $aTareas[$id]["prioridad"] == "sin asignar" ? "selected" : ""; ?>>Sin Asignar</option>
+                                <option value="Asignado" <?php echo isset($aTareas[$id]) && $aTareas[$id]["prioridad"] == "asignado" ? "selected" : ""; ?>>Asignado</option>
+                                <option value="En proceso" <?php echo isset($aTareas[$id]) && $aTareas[$id]["prioridad"] == "en proceso" ? "selected" : ""; ?>>En proceso</option>
+                                <option value="Terminado" <?php echo isset($aTareas[$id]) && $aTareas[$id]["estado"] == "terminado" ? "selected" : ""; ?>>Terminado</option>
                             </select>
                         </div>
                     </div>
@@ -136,59 +138,59 @@ if (isset($_GET["do"]) && $_GET["do"] == "eliminar") {
                     <div class="row">
                         <div class="col-12 py-1">
                             <label for="txtDescripcion">Descripcion</label>
-                            <textarea name="txtDescripcion" id="txtDescripcion" required></textarea>
+                            <textarea name="txtDescripcion" id="txtDescripcion" class="form-control" required></textarea>
                         </div>
                     </div>
-                   <div class="row">
-                      <div class="col-12 py-1 text-center">
-                          <button type="submit" name="btnEnviar" class="btn btn-primary">ENVIAR</button>
-                          <a href="index.php" class="btn btn-secondary">CANCELAR></a>
+                    <div class="row">
+                        <div class="col-12 py-1 text-center">
+                            <button type="submit" name="btnEnviar" class="btn btn-primary">ENVIAR</button>
+                            <a href="index.php" class="btn btn-secondary">CANCELAR</a>
 
-                       </div>
-                     </div>
+                        </div>
+                    </div>
                 </form>
             </div>
         </div>
- <?php if (count($aTareas)) : ?>
-              <div class="row">
-                 <div class="col-12 pt-3">
-                     <table class="table table-hover border">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Fecha de insercion</th>
-                            <th>Titulo</th>
-                            <th>Prioridad</th>
-                            <th>Usuario</th>
-                            <th>Estado</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($aTareas as $pos => $tarea): ?>
-                        <tr>
-                            <td><?php echo $pos ?></td>
-                            <td><?php echo $tarea["fecha"]; ?></td>
-                            <td><?php echo $tarea["titulo"]; ?></td>
-                            <td><?php echo $tarea["prioridad"]; ?></td>
-                            <td><?php echo $tarea["usuario"]; ?>></td>
-                            <td><?php echo $tarea["estado"]; ?></td>
-                            <td>
-                                 <a href="?id=<?php echo $pos ?>&do=editar"><i class="bi bi-pencil-fill"></i></a>
-                                 <a href="?id=<?php echo $pos ?>&do=eliminar"><i class="bi bi-trash-fill"></i></a>
-                            </td>
-                        </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
+        <?php if (count($aTareas)) : ?>
+            <div class="row">
+                <div class="col-12 pt-3">
+                    <table class="table table-hover border">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Fecha de insercion</th>
+                                <th>Titulo</th>
+                                <th>Prioridad</th>
+                                <th>Usuario</th>
+                                <th>Estado</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($aTareas as $pos => $tarea): ?>
+                                <tr>
+                                    <td><?php echo $pos?></td>
+                                    <td><?php echo $tarea["fecha"]; ?></td>
+                                    <td><?php echo $tarea["titulo"]; ?></td>
+                                    <td><?php echo $tarea["prioridad"]; ?></td>
+                                    <td><?php echo $tarea["usuario"]; ?>></td>
+                                    <td><?php echo $tarea["estado"]; ?></td>
+                                    <td>
+                                        <a href="?id=<?php echo $pos ?>&do=editar"><i class="bi bi-pencil-fill"></i></a>
+                                        <a href="?id=<?php echo $pos ?>&do=eliminar"><i class="bi bi-trash-fill"></i></a>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-        </div>
         <?php else : ?>
-                <div class="row">
-                    <div class="col-12">
-                        <div class="alert alert-info" role="alert">
-                            aun no se han cargado tareas.
-                     </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="alert alert-info" role="alert">
+                        aun no se han cargado tareas.
+                    </div>
                 </div>
             </div>
         <?php endif; ?>
