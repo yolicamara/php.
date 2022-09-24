@@ -16,7 +16,24 @@ if (file_exists("archivo.txt")) {
     $aClientes = array();
 }
 
-$pos = isset($_GET["pos"]) && $_GET["pos"] >=  0 ? $_GET["pos"] : "";
+$id = isset($_GET["id"]) ? $_GET["id"] : "";
+
+//si es eliminar
+if(isset($_GET["do"]) && $_GET["do"] == "eliminar"){
+     if(file_exists("imagenes/"  . $aClientes[$id] ["imagen"])){
+        unlink("imagenes/" . $aClientes[$id] ["imagen"]);
+     }
+     //Elimino la posicion $aClientes[$id]
+     unset($aClientes[$id]);
+
+    // Convertir el array en json
+    $strJson =Json_encode($aClientes);
+
+    //Actualir archivo con el nuevo array de clientes
+    file_put_contents("archivo.txt", $strJson);
+    header("Location: index.php");
+}
+
 
 
 if ($_POST) {
@@ -24,84 +41,59 @@ if ($_POST) {
     $nombre = trim($_POST["txtNombre"]);
     $telefono = trim($_POST["txtTelefono"]);
     $correo = trim($_POST["txtCorreo"]);
-    $nombreImagen = "";
-
-    if($pos>=0){
+    //si viene una imagen adjunta la guardo
         if ($_FILES["archivo"]["error"] === UPLOAD_ERR_OK){
+            if(isset($aClientes[$id] ["imagen"]) && $aClientes[$id]["imagen"] != ""){
+                if(file_exists("imagenes/" . $aClientes[$id]["imagen"])){
+                    unlink("imagenes/" . $aClientes[$id]["imagen"]);
+                }
+            }
             $nombreAleatorio = date("Ymdhmsi"); //2021011420453710
             $$archivo_tmp = $_FILES["archivo"]["tmp_name"];
-            $extension = strtolower(pathinfo($_FILES["archivo"]["name"], PATHINFO_EXTENSION));
-            if($extension == "jpg" || $extension == "jpeg" || $extension == "png"){
-                $nombreImagen = "$nombreAleatorio.$extension";
-                move_uploaded_file($archivo_tmp, "imagenes/$nombreImagen"); 
-            }
+            $nombreArchivo = $_FILES["archivo"]["name"];
+            $extension = pathinfo($nombreArchivo, PATHINFO_EXTENSION);
+            $imagen = "$nombreAleatorio.$extension";
 
-            //eliminar la imagen anterior
-            if($aClientes[$pos]["imagen"] != "" && file_exists("imagenes/".$aClientes[$pos]["imagen"])){
-                unlink("imagenes".$aClientes[$pos]["imagen"]);
+
+            if($extension == "jpg" || $extension == "jpeg" || $extension == "jpeg"){
+                $nombreImagen = "$nombreAleatorio.$extension";
+                move_uploaded_file($archivo_tmp, "imagenes/$imagen"); 
             }
         }else{
-            //Mantener el nombreImagen que teniamos antes
-            $nombreImagen = $aClientes[$pos]["imagen"];
+            //sino imagen es vacio
+            if($id >= 0){
+                $imagen = $aClientes[$id]["imagen"];
+            } else{
+                $imagen = "";
+            }
         }
-
-
-
-      //actualizar
-        $aClientes[$pos] = array(
+        //crear un array con todos los datos
+        if($id >= 0){
+            //actualizo
+             $aClientes[$id] = array(
         "documento" => $documento,
         "nombre" => $nombre,
         "telefono" => $telefono,
         "correo" => $correo,
-        "imagen" => $nombreImagen);
+        "imagen" => $Imagen);
 
     }else{
-       // $nombreAleatorio = date("Ymdhmsi"); //2021010420453710
-        //$archivo_tmp = $_FILES["archivo"]["tmp_name"];
-        //if($extension == "doc" || $extension =="docx" || $extension == "pdf"){   if($pos>=0){
-            $nombreAleatorio = date("Ymdhmsi"); //2021011420453710
-            $archivo_tmp = $_FILES["archivo"]["tmp_name"];
-            $extension = pathinfo($_FILES["archivo"]["name"], PATHINFO_EXTENSION);
-            if($extension == "jpg" || $extension == "jpeg" || $extension == "png"){
-            $nombreImagen = "$nombreAleatorio.$extension";
-                 move_uploaded_file($archivo_tmp, "imagenes/$nombreImagen"); 
-
-
-
-        }
-    }
-   //insertar
-
-    $aClientes[] = array(
+        //Es nuevo
+       $aClientes[] = array(
         "documento" => $documento,
         "nombre" => $nombre,
         "telefono" => $telefono,
         "correo" => $correo,
-        "imagen" =>$nombreImagen
-    );
+        "imagen" =>$imagen);
+       }
 
-    //convertir el array de clientes a jsonClientes
+    //convertir el array  a jsonClientes
     $jsonClientes = json_encode($aClientes);
 
-    //Almacenar el string jsonClientes en el "archivo.txt"
-    file_put_contents("archivo.txt", $jsonClientes);
+    //Almacenar el  json en  "archivo.txt"
+    file_put_contents("archivo.txt", $json);
 } 
 
-if(isset($_GET["do"]) && $_GET["do"] == "eliminar"){
-    //eliminar del array aClientes la posicion a borrar unset()
-    unset($aClientes[$pos]);
-
-
-    //convertir el array en json
-    $jsonClientes = json_encode($aClientes);
-
-
-
-    //almacenar el json en el archivo
-    file_put_contents("archivo.txt", $jsonClientes);
-    header ("Location: index.php");
-
-}
 
 
 

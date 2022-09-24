@@ -25,6 +25,7 @@ class Persona{
     {
         $this->$propiedad = $valor; //aca se lo definimos
     }
+    abstract public function imprimir();
 }
 
 

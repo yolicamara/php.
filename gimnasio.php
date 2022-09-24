@@ -14,6 +14,13 @@ class Persona{
     protected $correo;
     protected $celular;
 
+      public function __construct($dni, $nombre, $correo, $celular, $fechaNac){
+        parent::__construct($dni, $nombre, $$correo, $celular);
+        $this->dni = $dni;
+        $this->nombre = $nombre;
+        $this->correo = $correo;
+        $this->celular = $celular;
+
 
      public function __get($propiedad)
     {
@@ -34,6 +41,7 @@ class Alumno extends Persona{
     private $presentismo;
 
     public function __construct($dni, $nombre, $correo, $celular, $fechaNac){
+        parent::__construct($dni, $nombre, $$correo, $celular);
         $this->dni = $dni;
         $this->nombre = $nombre;
         $this->correo = $correo;
@@ -65,10 +73,9 @@ class entrenador extends Persona{
     private $aClases;
 
     public function __construct($dni, $nombre, $correo, $celular){
-        $this->dni = $dni;
-        $this->nombre = $nombre;
-        $this->correo = $correo;
-        $this->celular = $celular;
+        parent::__construct($dni, $nombre, $$correo, $celular);
+
+        
 
         $this->aClases = array();
     }
