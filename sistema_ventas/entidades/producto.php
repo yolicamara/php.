@@ -11,18 +11,17 @@ class producto
     private $fk_idtipoproducto;
     
 
-      public function __construct()
-    {
+      public function __construct() {
+        $this->cantidad = 0;
+        $this->precio = 0.0;
 
     }
 
-    public function __get($atributo)
-    {
+    public function __get($atributo) {
         return $this->$atributo;
     }
 
-    public function __set($atributo, $valor)
-    {
+    public function __set($atributo, $valor){
         $this->$atributo = $valor;
         return $this;
     }
@@ -52,7 +51,7 @@ class producto
                     '$this->precio',
                     '$this->descrpcion',
                     '$this->imagen',
-                    $this->fk_idtipoproducto
+                     '$this->fk_idtipoproducto'
                 );";
         // print_r($sql);exit;
         //Ejecuta la query
@@ -180,9 +179,10 @@ class producto
                     fk_idtipoproducto,
                   
                 FROM productos ORDER BY idproducto DESC";
+     
         if (!$resultado = $mysqli->query($sql)) {
-            printf("Error en query: %s\n", $mysqli->error . " " . $sql);
-        }
+           printf("Error en query: %s\n", $mysqli->error . " " . $sql);
+       }
 
         $aResultado = array();
         if($resultado){
