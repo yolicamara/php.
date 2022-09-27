@@ -5,6 +5,7 @@ $pg = "Listado de productos";
 $venta = new Venta();
 $aVentas = $venta->obtenerTodos();
 
+
 include_once("header.php");
 ?>
 

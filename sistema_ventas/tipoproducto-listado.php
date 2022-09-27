@@ -28,7 +28,7 @@ include_once("header.php");
             <tr>
                 <td> <?php echo $tipoProducto->nombre; ?></td>
                 <td>
-                    <a href="tipoproducto-formulario.php?id<?php echo $tipoproducto->idtipoproducto; ?>"><i class="fas fa-seach"></i></a>
+                    <a href="tipoproducto-formulario.php?id<?php echo $tipoProducto->idtipoproducto; ?>">Editar</a>
                 </td>
             </tr>
         <?php endforeach; ?>
