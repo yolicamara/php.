@@ -74,7 +74,7 @@ include_once "header.php";
     <div class="row">
         <div class="col-6 form-group">
             <label for="txtNombre">Nombre</label>
-            <input type="text" required class="form-control" name="txtNombre" id="txtNombre" value="<?php echo $tipoProducto->nombre; ?>"></input>
+            <input type="text" required class="form-control" name="txtNombre" id="txtNombre" value="<?php echo $tipoProducto->nombre; ?>">
         </div>
     </div>
     </div>
